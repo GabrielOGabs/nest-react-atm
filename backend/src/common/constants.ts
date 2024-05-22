@@ -1,1 +1,1 @@
-export const KNEX_CONNECTION = "knex_connection";
+export const ENCRIPT_ROUNDS = 8;

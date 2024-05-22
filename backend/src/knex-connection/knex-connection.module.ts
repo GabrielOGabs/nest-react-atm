@@ -3,12 +3,15 @@ import knexConfig from "knexfile";
 import { KnexModule } from "nestjs-knex";
 import { KnexTestService } from "./services/knex-test.service";
 import { KnexController } from "./controllers/knex.controller";
+import { ConfigService } from "@nestjs/config";
+import { EnvSchema } from "src/env";
 
 @Module({
   imports: [
     KnexModule.forRootAsync({
-      useFactory: () => ({
-        config: knexConfig[process.env.ENVIRONMENT]
+      inject: [ConfigService],
+      useFactory: (config: ConfigService<EnvSchema, true>) => ({
+        config: knexConfig[config.get<string>("APP_ENVIRONMENT")]
       })
     })
   ],
