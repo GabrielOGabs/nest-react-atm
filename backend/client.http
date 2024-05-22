@@ -1,2 +1,15 @@
+@base_url = http://localhost:3000
 
-GET http://localhost:3000/knex/alive
+GET {{base_url}}/knex/alive
+
+###
+
+# @name Create_User
+POST {{base_url}}/users/create
+Content-Type:  application/json
+
+{
+  "name": "Gabriel",
+  "login": "gabriel@email.com",
+  "pin": "0123"
+}
