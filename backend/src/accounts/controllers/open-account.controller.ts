@@ -4,7 +4,7 @@ import { CurrentUser } from "src/decorators/current-user.decorator";
 import { AccountsService } from "../services/accounts.service";
 import { z } from "zod";
 import { ZodValidationPipe } from "src/pipes/zod-validation.pipe";
-import { OpenAccountServicePayload } from "../dtos/openAccount.servicePayload";
+import { OpenAccountServicePayload } from "../dtos/open-account.payload";
 import { UserContext } from "src/auth/jwt.strategy";
 
 const openAccountBodySchema = z.object({
@@ -27,7 +27,7 @@ export class OpenAccountController {
   ): Promise<string> {
     //
     const payload: OpenAccountServicePayload = {
-      name: "Checkings",
+      name: body.accountName,
       userId: context.sub
     };
 

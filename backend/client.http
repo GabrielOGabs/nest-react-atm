@@ -37,3 +37,10 @@ Authorization: Bearer {{authToken}}
 {
   "accountName": "Checkings"
 }
+
+###
+
+# @name Get_All_Accounts
+GET {{base_url}}/accounts
+Content-Type:  application/json
+Authorization: Bearer {{authToken}}

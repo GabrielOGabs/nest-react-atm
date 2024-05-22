@@ -3,7 +3,7 @@ import { ZodValidationPipe } from "src/pipes/zod-validation.pipe";
 import { z } from "zod";
 import { AuthorizeResponse } from "../responses/authorize.response";
 import { AuthService } from "../services/auth.service";
-import { AuthenticateUserServicePayload } from "../dtos/authenticateUser.servicePayload";
+import { AuthenticateUserServicePayload } from "../dtos/authenticate-user.payload";
 
 const authorizeBodySchema = z.object({
   login: z.string().email(),

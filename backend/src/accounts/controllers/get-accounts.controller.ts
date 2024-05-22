@@ -1,17 +1,36 @@
+import { GetAccountResponse } from "./../responses/get-account.response";
+import { AccountsService } from "./../services/accounts.service";
 import { Controller, Get, UseGuards } from "@nestjs/common";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { UserContext } from "src/auth/jwt.strategy";
 import { CurrentUser } from "src/decorators/current-user.decorator";
+import { GetAllServicePayload } from "../dtos/get-all.payload";
 
 @Controller("/accounts")
 @UseGuards(JwtAuthGuard)
 export class GetAccountsController {
-  constructor() {}
+  constructor(private readonly accountsService: AccountsService) {}
 
   @Get()
-  public async handle(@CurrentUser() context: UserContext): Promise<any> {
-    console.log(context);
+  public async handle(
+    @CurrentUser() context: UserContext
+  ): Promise<GetAccountResponse[]> {
+    const payload: GetAllServicePayload = {
+      userId: context.sub
+    };
 
-    return "ok";
+    const accounts = await this.accountsService.getAll(payload);
+
+    const result = accounts.map((account) => {
+      const accountResponse: GetAccountResponse = {
+        id: account.id,
+        name: account.name,
+        balance: account.balance
+      };
+
+      return accountResponse;
+    });
+
+    return result;
   }
 }

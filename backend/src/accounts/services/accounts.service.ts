@@ -1,12 +1,9 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-  Scope
-} from "@nestjs/common";
-import { OpenAccountServicePayload } from "../dtos/openAccount.servicePayload";
+import { BadRequestException, Injectable, Scope } from "@nestjs/common";
+import { OpenAccountServicePayload } from "../dtos/open-account.payload";
 import { InjectConnection, Knex } from "nestjs-knex";
 import { randomUUID } from "node:crypto";
+import { GetAllServicePayload } from "../dtos/get-all.payload";
+import { Account } from "../dtos/account";
 
 @Injectable({ scope: Scope.REQUEST })
 export class AccountsService {
@@ -40,5 +37,15 @@ export class AccountsService {
     }
 
     return newAccountId;
+  }
+
+  public async getAll(payload: GetAllServicePayload): Promise<Account[]> {
+    const accounts: Account[] = await this.knex<Account>("accounts")
+      .where({
+        userId: payload.userId
+      })
+      .select("*");
+
+    return accounts;
   }
 }
