@@ -4,6 +4,7 @@ import { ConfigModule } from "@nestjs/config";
 import { UsersModule } from "./users/users.module";
 import { envSchema } from "./env";
 import { AuthModule } from "./auth/auth.module";
+import { AccountsModule } from "./accounts/accounts.module";
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { AuthModule } from "./auth/auth.module";
     }),
     KnexConnectionModule,
     UsersModule,
-    AuthModule
+    AuthModule,
+    AccountsModule
   ],
   controllers: [],
   providers: []
