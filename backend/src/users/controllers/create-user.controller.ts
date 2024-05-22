@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UsePipes } from "@nestjs/common";
+import { Body, Controller, Post } from "@nestjs/common";
 import { ZodValidationPipe } from "src/pipes/zod-validation.pipe";
 import { z } from "zod";
 import { UsersService } from "../services/users.service";
@@ -11,13 +11,16 @@ const createUserBodySchema = z.object({
 
 type CreateUserBodySchema = z.infer<typeof createUserBodySchema>;
 
+const bodyValidationPipe = new ZodValidationPipe(createUserBodySchema);
+
 @Controller("/users/create")
 export class CreateUserController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @UsePipes(new ZodValidationPipe(createUserBodySchema))
-  public async handle(@Body() body: CreateUserBodySchema): Promise<any> {
+  public async handle(
+    @Body(bodyValidationPipe) body: CreateUserBodySchema
+  ): Promise<any> {
     const { name, login, pin } = body;
 
     return await this.usersService.createUser({ name, login, pin });

@@ -4,10 +4,13 @@ import { FindByLoginServicePayload } from "src/users/dtos/findByLogin.servicePay
 import { UsersService } from "src/users/services/users.service";
 import { UserContext } from "../jwt.strategy";
 import { AuthenticateUserServicePayload } from "../dtos/authenticateUser.servicePayload";
+import { Knex } from "knex";
+import { InjectConnection } from "nestjs-knex";
 
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectConnection() private readonly knex: Knex,
     private readonly jwt: JwtService,
     private readonly usersService: UsersService
   ) {}
@@ -28,8 +31,10 @@ export class AuthService {
 
     const userContext: UserContext = {
       sub: user.id,
-      name: user.name,
-      login: user.login
+      loggedUser: {
+        name: user.name,
+        login: user.login
+      }
     };
 
     const token = this.jwt.sign(userContext);

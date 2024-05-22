@@ -7,8 +7,10 @@ import { z } from "zod";
 
 const userContextSchema = z.object({
   sub: z.string().uuid(),
-  name: z.string(),
-  login: z.string()
+  loggedUser: z.object({
+    name: z.string(),
+    login: z.string()
+  })
 });
 
 export type UserContext = z.infer<typeof userContextSchema>;

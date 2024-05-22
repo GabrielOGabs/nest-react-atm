@@ -29,7 +29,11 @@ Content-Type:  application/json
 
 ###
 
-# @name Check_Ballance
-GET {{base_url}}/accounts/ballance
+# @name Create_Account
+POST {{base_url}}/accounts/open
 Content-Type:  application/json
 Authorization: Bearer {{authToken}}
+
+{
+  "accountName": "Checkings"
+}

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UsePipes } from "@nestjs/common";
+import { Body, Controller, Post } from "@nestjs/common";
 import { ZodValidationPipe } from "src/pipes/zod-validation.pipe";
 import { z } from "zod";
 import { AuthorizeResponse } from "../responses/authorize.response";
@@ -12,14 +12,15 @@ const authorizeBodySchema = z.object({
 
 type AuthenticateBodySchema = z.infer<typeof authorizeBodySchema>;
 
+const bodyValidationPipe = new ZodValidationPipe(authorizeBodySchema);
+
 @Controller("/auth/authorize")
 export class AuthenticateController {
   constructor(private readonly authService: AuthService) {}
 
   @Post()
-  @UsePipes(new ZodValidationPipe(authorizeBodySchema))
   public async handle(
-    @Body() body: AuthenticateBodySchema
+    @Body(bodyValidationPipe) body: AuthenticateBodySchema
   ): Promise<AuthorizeResponse> {
     //
     const payload: AuthenticateUserServicePayload = {

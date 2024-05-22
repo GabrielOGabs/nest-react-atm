@@ -3,9 +3,9 @@ import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { UserContext } from "src/auth/jwt.strategy";
 import { CurrentUser } from "src/decorators/current-user.decorator";
 
-@Controller("/accounts/ballance")
+@Controller("/accounts")
 @UseGuards(JwtAuthGuard)
-export class AccountBallanceController {
+export class GetAccountsController {
   constructor() {}
 
   @Get()
