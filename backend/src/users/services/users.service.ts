@@ -16,7 +16,7 @@ export class UsersService {
 
     try {
       await this.knex("users").insert({
-        id: "",
+        id: "2cb3cfb4-908a-43fb-83cc-11baed15c77d",
         name,
         login,
         pin
