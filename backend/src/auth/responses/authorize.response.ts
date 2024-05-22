@@ -1,3 +1,3 @@
 export type AuthorizeResponse = {
-  acces_token: string;
+  access_token: string;
 };

@@ -1,4 +1,5 @@
 @base_url = http://localhost:3000
+@authToken = {{Authenticate.response.body.access_token}}
 
 GET {{base_url}}/knex/alive
 
@@ -25,3 +26,10 @@ Content-Type:  application/json
   "login": "gabriel@email.com",
   "pin": "0123"
 }
+
+###
+
+# @name Check_Ballance
+GET {{base_url}}/accounts/ballance
+Content-Type:  application/json
+Authorization: Bearer {{authToken}}

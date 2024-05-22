@@ -11,6 +11,7 @@ import { ZodValidationPipe } from "src/pipes/zod-validation.pipe";
 import { z } from "zod";
 import { JwtService } from "@nestjs/jwt";
 import { AuthorizeResponse } from "../responses/authorize.response";
+import { UserContext } from "../jwt.strategy";
 
 const authorizeBodySchema = z.object({
   login: z.string().email(),
@@ -41,12 +42,16 @@ export class AuthenticateController {
       throw new UnauthorizedException("Invalid credentials!");
     }
 
-    const token = this.jwt.sign({
-      sub: user.id
-    });
+    const userContext: UserContext = {
+      sub: user.id,
+      name: user.name,
+      login: user.login
+    };
+
+    const token = this.jwt.sign(userContext);
 
     const response: AuthorizeResponse = {
-      acces_token: token
+      access_token: token
     };
 
     return response;
