@@ -1,7 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { Knex } from "knex";
 import { InjectConnection } from "nestjs-knex";
-import { createUserServicePayload } from "../dtos/createUser.servicePayload";
+import { CreateUserServicePayload } from "../dtos/createUser.servicePayload";
+import { FindByLoginServicePayload } from "../dtos/findByLogin.servicePayload";
+import { User } from "src/entities/user.entity";
 
 @Injectable()
 export class UsersService {
@@ -11,7 +13,7 @@ export class UsersService {
     name,
     login,
     pin
-  }: createUserServicePayload): Promise<boolean> {
+  }: CreateUserServicePayload): Promise<boolean> {
     console.log(`${name} ${login} ${pin}`);
 
     try {
@@ -30,5 +32,20 @@ export class UsersService {
     }
 
     return true;
+  }
+
+  public async findBylogin(
+    payload: FindByLoginServicePayload
+  ): Promise<User | null> {
+    const user = await this.knex<User>("users")
+      .select()
+      .where("login", payload.login)
+      .first();
+
+    if (user) {
+      return user;
+    } else {
+      return null;
+    }
   }
 }
