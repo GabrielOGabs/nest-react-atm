@@ -13,3 +13,15 @@ Content-Type:  application/json
   "login": "gabriel@email.com",
   "pin": "0123"
 }
+
+###
+
+# @name Authenticate
+POST {{base_url}}/auth/authorize
+Content-Type:  application/json
+
+{
+  "name": "Gabriel",
+  "login": "gabriel@email.com",
+  "pin": "0123"
+}

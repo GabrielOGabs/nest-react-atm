@@ -3,6 +3,7 @@ import { KnexConnectionModule } from "./knex-connection/knex-connection.module";
 import { ConfigModule } from "@nestjs/config";
 import { UsersModule } from "./users/users.module";
 import { envSchema } from "./env";
+import { AuthModule } from "./auth/auth.module";
 
 @Module({
   imports: [
@@ -11,7 +12,8 @@ import { envSchema } from "./env";
       isGlobal: true
     }),
     KnexConnectionModule,
-    UsersModule
+    UsersModule,
+    AuthModule
   ],
   controllers: [],
   providers: []
