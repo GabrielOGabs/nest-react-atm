@@ -28,8 +28,9 @@ The application provides basic ATM functionalities:
 1. Clone the repository into your desired directory.
 2. Navigate to the backend folder in your terminal.
 3. Run `docker-compose up -d` to download the PostgreSQL image and build/run the container ([Docker](https://www.docker.com/)).
-4. Once the container is running, return to the terminal and run `pnpm start`.
-5. The backend application will start on the default port 3000.
+4. Once the container is running, return to the terminal and run `pnpm install` to install all node package modules.
+5. After finishing it, return to the terminal and run `pnpm start`.
+6. The backend application will start on the default port 3000.
 
 ### Observations
 
