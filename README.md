@@ -39,4 +39,4 @@ The application provides basic ATM functionalities:
 
 ## Additional Notes
 
-Feel free to explore the project and avaluate it according to your requirements. If you have any questions or issues, don't hesitate to reach out!
+Feel free to explore the project and evaluate it according to your requirements. If you have any questions or issues, don't hesitate to reach out!
