@@ -45,13 +45,4 @@ export class UsersService {
       return null;
     }
   }
-
-  public onModuleInit() {
-    console.log("Init Knex");
-  }
-
-  public onModuleDestroy() {
-    console.log("Destroy Knex");
-    this.knex.destroy();
-  }
 }
