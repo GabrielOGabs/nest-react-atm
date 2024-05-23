@@ -3,7 +3,7 @@ import { Knex } from "knex";
 import { InjectConnection } from "nestjs-knex";
 import { CreateUserServicePayload } from "../dtos/create-user.payload";
 import { FindByLoginServicePayload } from "../dtos/find-by-login.payload";
-import { User } from "src/entities/user.entity";
+import { User } from "@/entities/user.entity";
 import { randomUUID } from "node:crypto";
 
 @Injectable()

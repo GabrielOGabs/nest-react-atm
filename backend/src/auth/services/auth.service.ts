@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { FindByLoginServicePayload } from "src/users/dtos/find-by-login.payload";
-import { UsersService } from "src/users/services/users.service";
+import { FindByLoginServicePayload } from "@/users/dtos/find-by-login.payload";
+import { UsersService } from "@/users/services/users.service";
 import { UserContext } from "../jwt.strategy";
 import { AuthenticateUserServicePayload } from "../dtos/authenticate-user.payload";
 import { Knex } from "knex";

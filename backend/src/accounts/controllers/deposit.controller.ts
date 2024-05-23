@@ -1,10 +1,10 @@
 import { Body, Controller, Param, Post, UseGuards } from "@nestjs/common";
-import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
-import { CurrentUser } from "src/decorators/current-user.decorator";
+import { JwtAuthGuard } from "@/auth/jwt-auth.guard";
+import { CurrentUser } from "@/decorators/current-user.decorator";
 import { AccountsService } from "../services/accounts.service";
 import { z } from "zod";
-import { ZodValidationPipe } from "src/pipes/zod-validation.pipe";
-import { UserContext } from "src/auth/jwt.strategy";
+import { ZodValidationPipe } from "@/pipes/zod-validation.pipe";
+import { UserContext } from "@/auth/jwt.strategy";
 import { DepositServicePayload } from "../dtos/add-transaction.payload";
 
 const depositBodySchema = z.object({

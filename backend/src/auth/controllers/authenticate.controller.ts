@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from "@nestjs/common";
-import { ZodValidationPipe } from "src/pipes/zod-validation.pipe";
+import { ZodValidationPipe } from "@/pipes/zod-validation.pipe";
 import { z } from "zod";
 import { AuthorizeResponse } from "../responses/authorize.response";
 import { AuthService } from "../services/auth.service";
