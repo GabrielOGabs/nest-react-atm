@@ -5,4 +5,5 @@ export type Transaction = {
   accountId: string;
   amount: number;
   type: TransactionType;
+  transactionDate: Date;
 };

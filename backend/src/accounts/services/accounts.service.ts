@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, Scope } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  Scope,
+  UnauthorizedException
+} from "@nestjs/common";
 import { OpenAccountServicePayload } from "../dtos/open-account.payload";
 import { InjectConnection, Knex } from "nestjs-knex";
 import { randomUUID } from "node:crypto";
@@ -67,13 +72,24 @@ export class AccountsService {
         "transactions.accountId": payload.accountId,
         "accounts.userId": payload.userId
       })
-      .select("transactions.*");
+      .select("transactions.*")
+      .orderBy("transactionDate", "desc");
 
     return transactions;
   }
 
   public async withdraw(payload: WithdrawServicePayload): Promise<string> {
-    return await this.addTransaction({ ...payload, type: "Withdraw" });
+    const hasFunds: boolean = await this.knex("accounts")
+      .where("id", payload.accountId)
+      .andWhere("balance", ">=", payload.amount)
+      .select("balance")
+      .first();
+
+    if (!!hasFunds) {
+      return await this.addTransaction({ ...payload, type: "Withdraw" });
+    }
+
+    throw new UnauthorizedException("Not enough funds");
   }
 
   public async deposit(payload: DepositServicePayload): Promise<string> {

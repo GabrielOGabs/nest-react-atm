@@ -2,6 +2,7 @@
 @authToken = {{Authenticate.response.body.access_token}}
 
 @gabrielCheckingsAccountId = cbad914f-d6d4-445b-96ed-0c83d8322039
+@gabrielSavingsAccountId = f8389a1d-8d7b-4946-858c-1b91419e8377
 
 GET {{base_url}}/knex/alive
 
@@ -63,4 +64,15 @@ Authorization: Bearer {{authToken}}
 
 {
   "amount": 500
+}
+
+###
+
+# @name Withdraw
+POST {{base_url}}/accounts/{{gabrielSavingsAccountId}}/withdraw
+Content-Type:  application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "amount": 700
 }

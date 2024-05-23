@@ -4,6 +4,7 @@ import { OpenAccountController } from "./controllers/open-account.controller";
 import { AccountsService } from "./services/accounts.service";
 import { GetAllTransactionsController } from "./controllers/get-all-transaction.controller";
 import { DepositController } from "./controllers/deposit.controller";
+import { WithdrawController } from "./controllers/withdraw.controller";
 
 @Module({
   imports: [],
@@ -11,7 +12,8 @@ import { DepositController } from "./controllers/deposit.controller";
     GetAccountsController,
     OpenAccountController,
     GetAllTransactionsController,
-    DepositController
+    DepositController,
+    WithdrawController
   ],
   providers: [AccountsService]
 })

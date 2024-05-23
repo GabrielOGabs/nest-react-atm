@@ -29,7 +29,8 @@ export class GetAllTransactionsController {
       const transactionResponse: GetTransactionResponse = {
         id: transaction.id,
         amount: transaction.amount,
-        type: transaction.type
+        type: transaction.type,
+        transactionDate: transaction.transactionDate
       };
 
       return transactionResponse;
