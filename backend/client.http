@@ -49,7 +49,18 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-# @name Get_Transactions
+# @name Get_Account_Transactions
 GET {{base_url}}/accounts/{{gabrielCheckingsAccountId}}/transactions
 Content-Type:  application/json
 Authorization: Bearer {{authToken}}
+
+###
+
+# @name Deposit
+POST {{base_url}}/accounts/{{gabrielCheckingsAccountId}}/deposit
+Content-Type:  application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "amount": 500
+}

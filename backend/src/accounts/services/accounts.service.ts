@@ -92,6 +92,23 @@ export class AccountsService {
         amount: payload.amount,
         type: payload.type
       });
+
+      switch (payload.type) {
+        case "Deposit":
+          await this.knex("accounts")
+            .where("id", payload.accountId)
+            .increment("balance", payload.amount);
+          break;
+
+        case "Withdraw":
+          await this.knex("accounts")
+            .where("id", payload.accountId)
+            .decrement("balance", payload.amount);
+          break;
+
+        default:
+          throw new BadRequestException("Invalid transaction type");
+      }
     } catch (error) {
       console.log(error);
       throw error;

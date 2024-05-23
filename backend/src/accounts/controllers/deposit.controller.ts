@@ -8,7 +8,7 @@ import { UserContext } from "src/auth/jwt.strategy";
 import { DepositServicePayload } from "../dtos/add-transaction.payload";
 
 const depositBodySchema = z.object({
-  amount: z.number()
+  amount: z.number().int()
 });
 
 type DepositBodySchema = z.infer<typeof depositBodySchema>;
@@ -17,7 +17,7 @@ const bodyValidationPipe = new ZodValidationPipe(depositBodySchema);
 
 @Controller("/accounts/:accountId/deposit")
 @UseGuards(JwtAuthGuard)
-export class OpenAccountController {
+export class DepositController {
   constructor(private readonly accountsService: AccountsService) {}
 
   @Post()
