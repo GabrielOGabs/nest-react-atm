@@ -31,5 +31,12 @@
     "*.guard.ts": "nest-guard",
     "*.service.ts": "nest-service",
     "*.pipe.ts": "nest-pipe"
+  },
+  "files.associations": {
+    "*.css": "tailwindcss",
+    "*.scss": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
   }
 }
