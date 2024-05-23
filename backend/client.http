@@ -1,6 +1,8 @@
 @base_url = http://localhost:3000
 @authToken = {{Authenticate.response.body.access_token}}
 
+@gabrielCheckingsAccountId = cbad914f-d6d4-445b-96ed-0c83d8322039
+
 GET {{base_url}}/knex/alive
 
 ###
@@ -42,5 +44,12 @@ Authorization: Bearer {{authToken}}
 
 # @name Get_All_Accounts
 GET {{base_url}}/accounts
+Content-Type:  application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name Get_Transactions
+GET {{base_url}}/accounts/{{gabrielCheckingsAccountId}}/transactions
 Content-Type:  application/json
 Authorization: Bearer {{authToken}}

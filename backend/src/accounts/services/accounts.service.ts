@@ -4,6 +4,13 @@ import { InjectConnection, Knex } from "nestjs-knex";
 import { randomUUID } from "node:crypto";
 import { GetAllServicePayload } from "../dtos/get-all.payload";
 import { Account } from "../dtos/account";
+import { GetAllTransactionsServicePayload } from "../dtos/get-all-transactions.payload";
+import { Transaction } from "../dtos/transaction";
+import {
+  AddTransactionServicePayload,
+  DepositServicePayload,
+  WithdrawServicePayload
+} from "../dtos/add-transaction.payload";
 
 @Injectable({ scope: Scope.REQUEST })
 export class AccountsService {
@@ -47,5 +54,49 @@ export class AccountsService {
       .select("*");
 
     return accounts;
+  }
+
+  public async getAllTransactions(
+    payload: GetAllTransactionsServicePayload
+  ): Promise<Transaction[]> {
+    const transactions: Transaction[] = await this.knex<Transaction>(
+      "transactions"
+    )
+      .join("accounts", "transactions.accountId", "accounts.id")
+      .where({
+        "transactions.accountId": payload.accountId,
+        "accounts.userId": payload.userId
+      })
+      .select("transactions.*");
+
+    return transactions;
+  }
+
+  public async withdraw(payload: WithdrawServicePayload): Promise<string> {
+    return await this.addTransaction({ ...payload, type: "Withdraw" });
+  }
+
+  public async deposit(payload: DepositServicePayload): Promise<string> {
+    return await this.addTransaction({ ...payload, type: "Deposit" });
+  }
+
+  private async addTransaction(
+    payload: AddTransactionServicePayload
+  ): Promise<string> {
+    const newTransactionId = randomUUID();
+
+    try {
+      await this.knex("transactions").insert({
+        id: newTransactionId,
+        accountId: payload.accountId,
+        amount: payload.amount,
+        type: payload.type
+      });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+
+    return newTransactionId;
   }
 }
