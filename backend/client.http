@@ -1,6 +1,9 @@
 @base_url = http://localhost:3000
 @authToken = {{Authenticate.response.body.access_token}}
 
+@gabrielCheckingsAccountId = cbad914f-d6d4-445b-96ed-0c83d8322039
+@gabrielSavingsAccountId = f8389a1d-8d7b-4946-858c-1b91419e8377
+
 GET {{base_url}}/knex/alive
 
 ###
@@ -29,7 +32,47 @@ Content-Type:  application/json
 
 ###
 
-# @name Check_Ballance
-GET {{base_url}}/accounts/ballance
+# @name Create_Account
+POST {{base_url}}/accounts/open
 Content-Type:  application/json
 Authorization: Bearer {{authToken}}
+
+{
+  "accountName": "Checkings"
+}
+
+###
+
+# @name Get_All_Accounts
+GET {{base_url}}/accounts
+Content-Type:  application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name Get_Account_Transactions
+GET {{base_url}}/accounts/{{gabrielCheckingsAccountId}}/transactions
+Content-Type:  application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name Deposit
+POST {{base_url}}/accounts/{{gabrielCheckingsAccountId}}/deposit
+Content-Type:  application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "amount": 500
+}
+
+###
+
+# @name Withdraw
+POST {{base_url}}/accounts/{{gabrielSavingsAccountId}}/withdraw
+Content-Type:  application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "amount": 700
+}

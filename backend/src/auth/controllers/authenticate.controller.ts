@@ -1,17 +1,9 @@
-import { FindByLoginServicePayload } from "./../../users/dtos/findByLogin.servicePayload";
-import { UsersService } from "./../../users/services/users.service";
-import {
-  Body,
-  Controller,
-  Post,
-  UnauthorizedException,
-  UsePipes
-} from "@nestjs/common";
+import { Body, Controller, Post } from "@nestjs/common";
 import { ZodValidationPipe } from "src/pipes/zod-validation.pipe";
 import { z } from "zod";
-import { JwtService } from "@nestjs/jwt";
 import { AuthorizeResponse } from "../responses/authorize.response";
-import { UserContext } from "../jwt.strategy";
+import { AuthService } from "../services/auth.service";
+import { AuthenticateUserServicePayload } from "../dtos/authenticate-user.payload";
 
 const authorizeBodySchema = z.object({
   login: z.string().email(),
@@ -20,35 +12,23 @@ const authorizeBodySchema = z.object({
 
 type AuthenticateBodySchema = z.infer<typeof authorizeBodySchema>;
 
+const bodyValidationPipe = new ZodValidationPipe(authorizeBodySchema);
+
 @Controller("/auth/authorize")
 export class AuthenticateController {
-  constructor(
-    private readonly jwt: JwtService,
-    private readonly usersService: UsersService
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post()
-  @UsePipes(new ZodValidationPipe(authorizeBodySchema))
   public async handle(
-    @Body() body: AuthenticateBodySchema
+    @Body(bodyValidationPipe) body: AuthenticateBodySchema
   ): Promise<AuthorizeResponse> {
-    const payload: FindByLoginServicePayload = {
-      login: body.login
+    //
+    const payload: AuthenticateUserServicePayload = {
+      login: body.login,
+      pin: body.pin
     };
 
-    const user = await this.usersService.findBylogin(payload);
-
-    if (user.pin !== body.pin) {
-      throw new UnauthorizedException("Invalid credentials!");
-    }
-
-    const userContext: UserContext = {
-      sub: user.id,
-      name: user.name,
-      login: user.login
-    };
-
-    const token = this.jwt.sign(userContext);
+    const token = await this.authService.authenticateUser(payload);
 
     const response: AuthorizeResponse = {
       access_token: token
