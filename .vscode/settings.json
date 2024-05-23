@@ -3,5 +3,33 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.tabWidth": 2,
   "editor.tabSize": 2,
-  "files.eol": "\r\n"
+  "files.eol": "\r\n",
+  "material-icon-theme.files.customClones": [
+    {
+      "name": "nest-guard",
+      "base": "nest",
+      "color": "light-green-500",
+      "lightColor": "light-green-700",
+      "fileNames": ["*.guard.ts"]
+    },
+    {
+      "name": "nest-service",
+      "base": "nest",
+      "color": "yellow",
+      "fileNames": ["*.service.ts"]
+    },
+    {
+      "name": "nest-pipe",
+      "base": "nest",
+      "color": "#00aa77",
+      "fileNames": ["*.pipe.ts"]
+    }
+  ],
+  "material-icon-theme.files.associations": {
+    "vitest.config.e2e.ts": "vitest",
+    "*.module.ts": "nest",
+    "*.guard.ts": "nest-guard",
+    "*.service.ts": "nest-service",
+    "*.pipe.ts": "nest-pipe"
+  }
 }
