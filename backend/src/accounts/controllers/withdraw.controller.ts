@@ -32,8 +32,8 @@ export class WithdrawController {
       amount: body.amount
     };
 
-    const transaction = await this.accountsService.withdraw(payload);
+    const transactionId = await this.accountsService.withdraw(payload);
 
-    return transaction;
+    return transactionId;
   }
 }
