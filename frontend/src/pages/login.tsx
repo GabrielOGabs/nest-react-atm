@@ -1,15 +1,23 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../contexts/auth-context";
+import { useNavigate } from "react-router";
+import { Home } from "./home";
 
-const Login = () => {
+export function Login() {
   const [email, setEmail] = useState("");
   const [pin, setPin] = useState("");
   const authContext = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
     if (authContext) {
-      await authContext.handleLogin(email, pin);
+      const success = await authContext.handleLogin(email, pin);
+
+      if (success) {
+        navigate("/home");
+      }
     }
   };
 
@@ -62,6 +70,4 @@ const Login = () => {
       </div>
     </div>
   );
-};
-
-export default Login;
+}
