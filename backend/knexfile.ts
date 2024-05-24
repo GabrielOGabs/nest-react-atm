@@ -17,6 +17,23 @@ const knexConfig: { [key: string]: Knex.Config } = {
     seeds: {
       directory: "./knex/seeds"
     }
+  },
+  test2e2: {
+    client: "pg",
+    connection: {
+      host: "localhost",
+      port: 5433,
+      user: "postgres",
+      password: "docker",
+      database: "atm"
+    },
+    migrations: {
+      tableName: "knex_migrations",
+      directory: "./knex/migrations"
+    },
+    seeds: {
+      directory: "./knex/seeds"
+    }
   }
 };
 
