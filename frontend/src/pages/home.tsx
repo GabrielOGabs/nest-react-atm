@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import api from "../services/api";
 import { AuthContext, LoggedUser } from "../contexts/auth-context";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 interface Account {
   id: number;
@@ -26,6 +27,7 @@ export function Home() {
     };
 
     fetchAccounts();
+
     const loggedUser = authContext?.getLoggedUser();
     if (loggedUser) {
       setUser(loggedUser);
@@ -69,20 +71,22 @@ export function Home() {
         )}
       </div>
 
-      <div className="flex justify-center items-center bg-green-300">
-        <button
-          type="button"
+      <div className="flex justify-center items-center mt-24">
+        <Link
+          to="/app/withdraw"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          relative="path"
         >
           Withdraw
-        </button>
+        </Link>
         <div className="w-10"></div>
-        <button
-          type="button"
+        <Link
+          to="/app/deposit"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          relative="path"
         >
           Deposit
-        </button>
+        </Link>
       </div>
     </div>
   );
