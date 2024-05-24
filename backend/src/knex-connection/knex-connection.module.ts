@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import knexConfig from "knexfile";
 import { KnexModule } from "nestjs-knex";
 import { ConfigService } from "@nestjs/config";
-import { EnvSchema } from "src/env";
+import { EnvSchema } from "@/env";
 
 @Module({
   imports: [

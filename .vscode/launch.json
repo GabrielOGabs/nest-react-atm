@@ -13,6 +13,19 @@
       "stopOnEntry": false,
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}/backend"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Nest Framework Tests",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["run", "test:debug"],
+      "autoAttachChildProcesses": true,
+      "restart": true,
+      "sourceMaps": true,
+      "stopOnEntry": false,
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend"
     }
   ]
 }

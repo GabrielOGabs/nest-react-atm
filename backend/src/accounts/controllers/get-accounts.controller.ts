@@ -1,9 +1,9 @@
 import { GetAccountResponse } from "./../responses/get-account.response";
 import { AccountsService } from "./../services/accounts.service";
 import { Controller, Get, UseGuards } from "@nestjs/common";
-import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
-import { UserContext } from "src/auth/jwt.strategy";
-import { CurrentUser } from "src/decorators/current-user.decorator";
+import { JwtAuthGuard } from "@/auth/jwt-auth.guard";
+import { UserContext } from "@/auth/jwt.strategy";
+import { CurrentUser } from "@/decorators/current-user.decorator";
 import { GetAllServicePayload } from "../dtos/get-all.payload";
 
 @Controller("/accounts")

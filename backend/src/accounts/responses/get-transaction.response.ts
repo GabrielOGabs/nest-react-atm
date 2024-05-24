@@ -1,4 +1,4 @@
-import { TransactionType } from "src/common/constants";
+import { TransactionType } from "@/common/constants";
 
 export type GetTransactionResponse = {
   id: string;
