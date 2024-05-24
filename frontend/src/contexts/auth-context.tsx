@@ -7,12 +7,12 @@ type AccessToken = {
   loggedUser: LoggedUser;
 };
 
-type LoggedUser = {
+export type LoggedUser = {
   name: string;
   login: string;
 };
 interface AuthContextType {
-  user: LoggedUser | null;
+  getLoggedUser: () => LoggedUser | undefined;
   handleLogin: (email: string, pin: string) => Promise<boolean>;
   logout: () => void;
   isLoggedIn: () => boolean;
@@ -22,8 +22,29 @@ export const AuthContext = createContext<AuthContextType | undefined>(
   undefined
 );
 
+const removeTokenFromLocalStorage = () => {
+  localStorage.removeItem("token");
+};
+
+const getTokenFromLocalStorage = (): AccessToken | null => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    const decodedToken = jwtDecode<AccessToken>(token);
+    return decodedToken;
+  }
+
+  return null;
+};
+
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<LoggedUser | null>(null);
+  const [token, setToken] = useState(getTokenFromLocalStorage());
+
+  useEffect(() => {
+    if (!token) {
+      setToken(getTokenFromLocalStorage());
+    }
+  }, [token]);
 
   const handleLogin = async (login: string, pin: string): Promise<boolean> => {
     try {
@@ -35,9 +56,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       const token = response.data.access_token;
       localStorage.setItem("token", token);
 
-      const decodedToken = jwtDecode<AccessToken>(token);
-      setUser(decodedToken.loggedUser);
-
       return true;
     } catch (error) {
       console.error("Login failed", error);
@@ -47,25 +65,26 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
-    setUser(null);
+    removeTokenFromLocalStorage();
+    setToken(null);
   };
 
   const isLoggedIn = () => {
-    if (user) return true;
-
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      const decodedToken = jwtDecode<AccessToken>(token);
-      setUser(decodedToken.loggedUser);
+    if (!token) {
+      return !!getTokenFromLocalStorage();
     }
 
-    return user !== null;
+    return !!token;
+  };
+
+  const getLoggedUser = () => {
+    return token?.loggedUser;
   };
 
   return (
-    <AuthContext.Provider value={{ user, handleLogin, logout, isLoggedIn }}>
+    <AuthContext.Provider
+      value={{ getLoggedUser, handleLogin, logout, isLoggedIn }}
+    >
       {children}
     </AuthContext.Provider>
   );

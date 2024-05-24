@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import api from "../services/api";
-import { AuthContext } from "../contexts/auth-context";
+import { AuthContext, LoggedUser } from "../contexts/auth-context";
+import { useNavigate } from "react-router";
 
 interface Account {
   id: number;
@@ -10,7 +11,9 @@ interface Account {
 
 export function Home() {
   const [accounts, setAccounts] = useState<Account[]>([]);
+  const [user, setUser] = useState<LoggedUser | null>(null);
   const authContext = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAccounts = async () => {
@@ -23,23 +26,33 @@ export function Home() {
     };
 
     fetchAccounts();
-  }, []);
+    const loggedUser = authContext?.getLoggedUser();
+    if (loggedUser) {
+      setUser(loggedUser);
+    }
+  }, [authContext]);
 
   const handleLogout = () => {
     if (authContext) {
       authContext.logout();
+      navigate("/login");
     }
   };
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Home</h1>
-      <button
-        onClick={handleLogout}
-        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-4"
-      >
-        Logout
-      </button>
+      <div className="flex items-center justify-center">
+        <label className="text-2xl font-bold">Welcome, {user?.name}</label>
+        <div className="flex-1"></div>
+        <label className="text-xl mr-3">{user?.login}</label>
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Logout
+        </button>
+      </div>
+
       <div className="bg-white shadow-md rounded p-4">
         <h2 className="text-xl font-bold mb-2">Accounts</h2>
         {accounts.length > 0 ? (
@@ -54,6 +67,22 @@ export function Home() {
         ) : (
           <div>No accounts available.</div>
         )}
+      </div>
+
+      <div className="flex justify-center items-center bg-green-300">
+        <button
+          type="button"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Withdraw
+        </button>
+        <div className="w-10"></div>
+        <button
+          type="button"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Deposit
+        </button>
       </div>
     </div>
   );
