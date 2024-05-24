@@ -28,7 +28,7 @@ export class GetAllTransactionsController {
     const result = transactions.map((transaction) => {
       const transactionResponse: GetTransactionResponse = {
         id: transaction.id,
-        amount: transaction.amount,
+        amount: Number(transaction.amount),
         type: transaction.type,
         transactionDate: transaction.transactionDate
       };

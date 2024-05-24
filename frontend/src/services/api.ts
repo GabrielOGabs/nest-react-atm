@@ -3,6 +3,9 @@ import { baseApiUrl } from "../utils/constants";
 
 const api = axios.create({
   baseURL: baseApiUrl,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 api.interceptors.request.use((config) => {
