@@ -15,7 +15,6 @@ export function Home() {
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
-        debugger;
         const response = await api.get("/accounts");
         setAccounts(response.data);
       } catch (error) {
