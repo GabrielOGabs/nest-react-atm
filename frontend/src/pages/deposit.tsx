@@ -7,9 +7,7 @@ interface Account {
   balance: number;
 }
 
-const AVAILABLE_BILLS = [100, 50, 20, 10, 5, 2];
-
-export function Withdraw() {
+export function Deposit() {
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [selectedAccount, setSelectedAccount] = useState<Account>();
   const [amount, setAmount] = useState(0);
@@ -34,27 +32,14 @@ export function Withdraw() {
       return;
     }
 
-    if (selectedAccount.balance < amount) {
-      alert("Not enough Balance");
-      return;
-    }
-
-    const isAvailable = checkWithDrawAvailability(amount);
-    if (!isAvailable) {
-      alert(
-        "It is not possible to withdraw this amount with the available bills"
-      );
-      return;
-    }
-
-    const response = await api.post(`accounts/${selectedAccount.id}/withdraw`, {
+    const response = await api.post(`accounts/${selectedAccount.id}/deposit`, {
       amount,
     });
 
     if (response.data) {
-      alert("Withdrawal performed");
-      fetchAccounts();
+      alert("Deposit confirmed");
       setAmount(0);
+      fetchAccounts();
     }
   };
 
@@ -77,20 +62,11 @@ export function Withdraw() {
     setAmount(Math.floor(value));
   };
 
-  const checkWithDrawAvailability = (value: number) => {
-    for (let bill of AVAILABLE_BILLS) {
-      if (value >= bill) {
-        value -= bill * Math.floor(value / bill);
-      }
-    }
-    return value === 0;
-  };
-
   return (
     <div className="p-4">
       <div className="flex justify-center mb-24">
         <div className="flex flex-col justify-center">
-          <label className="text-lg font-bold">Withdraw from: </label>
+          <label className="text-lg font-bold">Deposit to: </label>
 
           <select
             id="my-select"

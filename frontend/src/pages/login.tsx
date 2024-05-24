@@ -10,7 +10,7 @@ export function Login() {
 
   useEffect(() => {
     if (authContext?.isLoggedIn()) {
-      navigate("/app/home");
+      navigate("/home");
     }
   }, [authContext, navigate]);
 
@@ -21,7 +21,7 @@ export function Login() {
       const success = await authContext.handleLogin(email, pin);
 
       if (success) {
-        navigate("/app/home");
+        navigate("/home");
       }
     }
   };
