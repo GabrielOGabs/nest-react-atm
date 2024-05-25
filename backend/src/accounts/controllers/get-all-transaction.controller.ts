@@ -30,7 +30,7 @@ export class GetAllTransactionsController {
         id: transaction.id,
         amount: Number(transaction.amount),
         type: transaction.type,
-        transactionDate: transaction.transactionDate
+        transactionDate: new Date(transaction.transactionDate)
       };
 
       return transactionResponse;

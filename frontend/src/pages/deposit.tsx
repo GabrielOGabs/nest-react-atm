@@ -1,5 +1,6 @@
 import { useEffect, useState, ChangeEvent } from "react";
 import api from "../services/api";
+import { Link } from "react-router-dom";
 
 interface Account {
   id: string;
@@ -85,6 +86,7 @@ export function Deposit() {
           <label className="text-lg font-bold">Amount: </label>
           <input
             type="number"
+            min="0"
             id="amount"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             value={amount}
@@ -94,12 +96,12 @@ export function Deposit() {
         </div>
       </div>
       <div className="flex items-center justify-center">
-        <button
-          type="button"
-          className="bg-red-500 hover:bg-red-700 text-red-950 font-bold py-2 px-4 rounded w-[200px] h-[200px]"
+        <Link
+          to="/home"
+          className="bg-red-500 hover:bg-red-700 text-red-950 font-bold py-2 px-4 rounded w-[200px] h-[200px] flex justify-center items-center"
         >
           Cancel
-        </button>
+        </Link>
 
         <div className="w-10"></div>
 
