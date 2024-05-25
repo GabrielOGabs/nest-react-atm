@@ -6,6 +6,7 @@ import { Withdraw } from "./pages/withdraw";
 import { Deposit } from "./pages/deposit";
 import { Transactions } from "./pages/account";
 import { NotFound } from "./pages/not-found";
+import { GetMoney } from "./pages/get-money";
 
 export function AppRouter() {
   return (
@@ -17,6 +18,7 @@ export function AppRouter() {
         <Route path="withdraw" element={<Withdraw />} />
         <Route path="deposit" element={<Deposit />} />
         <Route path="accounts/:accountId" element={<Transactions />} />
+        <Route path="getmoney/:amount" element={<GetMoney />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

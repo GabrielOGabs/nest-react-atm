@@ -1,14 +1,13 @@
 import { useEffect, useState, ChangeEvent } from "react";
 import api from "../services/api";
 import { Link } from "react-router-dom";
+import { AVAILABLE_BILLS } from "../utils/constants";
 
 interface Account {
   id: string;
   name: string;
   balance: number;
 }
-
-const AVAILABLE_BILLS = [100, 50, 20, 10, 5, 2];
 
 export function Withdraw() {
   const [accounts, setAccounts] = useState<Account[]>([]);
