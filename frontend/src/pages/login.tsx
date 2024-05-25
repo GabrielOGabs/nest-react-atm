@@ -1,13 +1,18 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../contexts/auth-context";
 import { useNavigate } from "react-router";
-import { Home } from "./home";
 
 export function Login() {
   const [email, setEmail] = useState("");
   const [pin, setPin] = useState("");
   const authContext = useContext(AuthContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authContext?.isLoggedIn()) {
+      navigate("/home");
+    }
+  }, [authContext, navigate]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();

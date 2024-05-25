@@ -1,8 +1,18 @@
-import { createContext, useState, ReactNode } from "react";
+import { createContext, useState, ReactNode, useEffect } from "react";
 import api from "../services/api";
+import { jwtDecode } from "jwt-decode";
 
+type AccessToken = {
+  sub: string;
+  loggedUser: LoggedUser;
+};
+
+export type LoggedUser = {
+  name: string;
+  login: string;
+};
 interface AuthContextType {
-  user: string | null;
+  getLoggedUser: () => LoggedUser | undefined;
   handleLogin: (email: string, pin: string) => Promise<boolean>;
   logout: () => void;
   isLoggedIn: () => boolean;
@@ -12,8 +22,29 @@ export const AuthContext = createContext<AuthContextType | undefined>(
   undefined
 );
 
+const removeTokenFromLocalStorage = () => {
+  localStorage.removeItem("token");
+};
+
+const getTokenFromLocalStorage = (): AccessToken | null => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    const decodedToken = jwtDecode<AccessToken>(token);
+    return decodedToken;
+  }
+
+  return null;
+};
+
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<string | null>(null);
+  const [token, setToken] = useState(getTokenFromLocalStorage());
+
+  useEffect(() => {
+    if (!token) {
+      setToken(getTokenFromLocalStorage());
+    }
+  }, [token]);
 
   const handleLogin = async (login: string, pin: string): Promise<boolean> => {
     try {
@@ -21,34 +52,39 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         login,
         pin,
       });
-      const token = response.data.access_token;
 
+      const token = response.data.access_token;
       localStorage.setItem("token", token);
 
-      setUser(login);
-      console.log("User logged in");
       return true;
     } catch (error) {
       console.error("Login failed", error);
+      //TODO: Implement a toast to give user feedback
       return false;
     }
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
-    setUser(null);
+    removeTokenFromLocalStorage();
+    setToken(null);
   };
 
   const isLoggedIn = () => {
-    if (user) {
-      return true;
+    if (!token) {
+      return !!getTokenFromLocalStorage();
     }
 
-    return false; //!!localStorage.getItem("token");
+    return !!token;
+  };
+
+  const getLoggedUser = () => {
+    return token?.loggedUser;
   };
 
   return (
-    <AuthContext.Provider value={{ user, handleLogin, logout, isLoggedIn }}>
+    <AuthContext.Provider
+      value={{ getLoggedUser, handleLogin, logout, isLoggedIn }}
+    >
       {children}
     </AuthContext.Provider>
   );
