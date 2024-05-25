@@ -1,6 +1,6 @@
 import { useEffect, useState, ChangeEvent } from "react";
 import api from "../services/api";
-import { Link } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { AVAILABLE_BILLS } from "../utils/constants";
 
 interface Account {
@@ -13,6 +13,7 @@ export function Withdraw() {
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [selectedAccount, setSelectedAccount] = useState<Account>();
   const [amount, setAmount] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchAccounts();
@@ -55,6 +56,7 @@ export function Withdraw() {
       alert("Withdrawal performed");
       fetchAccounts();
       setAmount(0);
+      navigate(`/getmoney/${amount}`);
     }
   };
 

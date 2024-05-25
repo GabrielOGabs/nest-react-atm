@@ -46,8 +46,6 @@ export const GetMoney = () => {
   }: MoneyBillProps) => {
     if (quantity === 0) return <></>;
 
-    console.log(`Quantity ${amount}`, quantity);
-
     return (
       <div>
         <div
