@@ -72,7 +72,8 @@ export function Transactions() {
       <div className="flex flex-col">
         <label className="m4 text-2xl">{user?.name},</label>
         <label className="m4 text-md">
-          check your transactions for the {account?.name} account:
+          check your transactions for the <strong>{account?.name}</strong>{" "}
+          account:
         </label>
 
         <div className="mt-4 p-4 bg-gray-200 rounded-lg w-96">
@@ -81,7 +82,7 @@ export function Transactions() {
               {transactions.map((transaction) => (
                 <li
                   key={transaction.id}
-                  className={`mb-2 cursor-pointer p-2 border-b border-gray-300 ${getTransactionTypeColor(
+                  className={`mb-2 p-2 border-b border-gray-300 ${getTransactionTypeColor(
                     transaction.type
                   )}`}
                 >
